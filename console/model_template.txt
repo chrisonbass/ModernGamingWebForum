@@ -1,0 +1,12 @@
+<?php
+namespace app\model;
+
+[[CLASSES_USED]]
+
+class [[CLASS_NAME]] extends [[BASE_CLASS]] {
+  [[PROPERTIES]]
+
+  public function tableName(){
+    return "[[TABLE_NAME]]";
+  }
+}

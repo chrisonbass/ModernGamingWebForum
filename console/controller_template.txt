@@ -1,0 +1,9 @@
+<?php
+namespace app\controller;
+
+class [[CLASS_NAME]] extends Crud {
+  public function modelClass(){
+    return "app\\model\\[[CLASS_NAME]]";
+  }
+  [[CUSTOM_CODE]]
+}
