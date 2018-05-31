@@ -18,7 +18,7 @@ class Comment extends LikedRecord {
 
   public function init(){
     parent::init();
-    $this->on(ActiveRecord::EVENT_BEFORE_SAVE, [$this,'beforeSave']);
+    $this->on(ActiveRecord::EVENT_BEFORE_SAVE, [$this,'beforeCommentSave']);
   }
 
   public function getUser(){
@@ -34,7 +34,7 @@ class Comment extends LikedRecord {
     }
     return null;
   }
-  public function beforeSave($event){
+  public function beforeCommentSave($event){
     if ( !$this->created_at ){
       $this->created_at = date("Y-m-d H:i:s");
     }

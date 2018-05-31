@@ -27,7 +27,8 @@ class Topic extends LikedRecord {
         $this->board = new Board($this->board_id);
       }
     }
-    $this->on(ActiveRecord::EVENT_BEFORE_SAVE, [$this, 'beforeSave']);
+    $this->on(ActiveRecord::EVENT_BEFORE_SAVE, [$this, 'handleTopicBeforeSave']);
+    $this->on(ActiveRecord::EVENT_AFTER_DELETE, [$this, 'handleTopicAfterDelete']);
   }
 
   /**
@@ -98,11 +99,29 @@ class Topic extends LikedRecord {
    * on its self
    * @param app\base\Event the event
    */
-  public function beforeSave($event){
+  public function handleTopicBeforeSave($event){
     if ( !$this->id ){
       $this->created_at = date("Y-m-d H:i:s");
     }
   }
+
+  /**
+   * This function listens for the 
+   * ActiveRecord::EVENT_AFTER_DELETE event
+   * on its self
+   * @param app\base\Event the event
+   */
+  public function handleTopicAfterDelete($event){
+    if ( $this->id ){
+      $comments = (new Comment())->all( function($com){
+        return $com->topic_id == $this->id;
+      } );
+      foreach ( $comments as $comment ){
+        $comment->delete();
+      }
+    }
+  }
+
   /**
    * Filter method used by the 
    * getComments method

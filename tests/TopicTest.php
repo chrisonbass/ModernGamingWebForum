@@ -4,12 +4,14 @@ use PHPUnit\Framework\TestCase;
 use app\App;
 use app\model\Board;
 use app\model\Topic;
+use app\model\Comment;
 use app\model\LikedBy;
 use app\model\User;
 
 final class TopicTest extends TestCase {
   private static $working_topic_id = null;
   private static $working_user = null;
+  private static $working_comment_id = null;
 
   public function testCreatingTopic(){
     $user_id = "5b022f56bffdb";
@@ -53,6 +55,44 @@ final class TopicTest extends TestCase {
     $this->assertEmpty($likes);
   }
 
+  public function testAddCommentToTopic(){
+    $topic = new Topic(static::$working_topic_id);
+    $user = static::$working_user; 
+
+    $this->assertNotNull($topic->id);
+    $this->assertNotNull($user);
+
+    $comment = new Comment();
+    $comment->created_by = $user->id;
+    $comment->topic_id = $topic->id;
+    $comment->body = "Testing comment";
+    $cid = static::$working_comment_id = $comment->save();
+
+    $this->assertNotNull($cid);
+
+    $value = (new Topic(static::$working_topic_id))->getComments();
+    $this->assertNotEmpty($value);
+  }
+
+  public function testLikingAComment(){
+    $topic = new Topic(static::$working_topic_id);
+    $user = static::$working_user; 
+    $comment = new Comment(static::$working_comment_id);
+    $this->assertEquals(
+      $user->id,
+      $comment->created_by
+    );
+    $comment->addLike($user);
+    $this->assertNotEmpty($comment->getLikes());
+  }
+
+  public function testLikingAgainBeforeDeletingTopic(){
+    $topic = new Topic(static::$working_topic_id);
+    $user = static::$working_user; 
+    $topic->addLike($user);
+    $this->assertNotEmpty($topic->getLikes());
+  }
+
   public function testDeletingCreatedTopic(){
     $topic = new Topic(static::$working_topic_id);
     $this->assertEquals(
@@ -62,12 +102,27 @@ final class TopicTest extends TestCase {
   }
 
   public function testNoLikesAreAttachedToDeletedTopic(){
-    $id = static::$working_topic_id;
-    $t = new Topic();
     $likes = (new LikedBy())->all(function($like){
-      return $like->object_model == $t->tableName() && $like->object_id == $id;
+      $t = new Topic();
+      return $like->object_model == $t->tableName() && $like->object_id == static::$working_topic_id;
     } );
     $this->assertEmpty( $likes );
   }
+
+  public function testNoCommentsAreAttachedToDeletedTopic(){
+    $comments = (new Comment())->all(function($comment){
+      return $comment->topic_id == static::$working_topic_id;
+    } );
+    $this->assertEmpty( $comments );
+  }
+
+  public function testNoLikesAreAttachedToNowDeletedComments(){
+    $likes = (new LikedBy())->all(function($like){
+      $c = new Comment();
+      return $like->object_model == $c->tableName() && $like->object_id == static::$working_comment_id;
+    } );
+    $this->assertEmpty( $likes );
+  }
+
 }
 
