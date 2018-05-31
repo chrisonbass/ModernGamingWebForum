@@ -221,13 +221,7 @@ abstract class ActiveRecord extends Model {
       if ( is_subclass_of($record, "app\\db\\ActiveRecord") ){
         $record->populateFromCsvRow($cd);
         if ( is_callable($callable) ){
-          if ( is_array($callable) ){
-            $obj = $callable[0];
-            $meth = $callable[1];
-            if ( $obj->$meth($record) ){
-              $data[] = $record;
-            }
-          } else if ( $callable($record) ){
+          if ( call_user_func($callable, $record) ){
             $data[] = $record;
           }
         } else {

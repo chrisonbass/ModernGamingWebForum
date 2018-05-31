@@ -17,6 +17,7 @@ class Comment extends LikedRecord {
   }
 
   public function init(){
+    parent::init();
     $this->on(ActiveRecord::EVENT_BEFORE_SAVE, [$this,'beforeSave']);
   }
 

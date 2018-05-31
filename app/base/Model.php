@@ -7,6 +7,7 @@ class Model extends BaseObject {
   protected $__errors = array();
 
   public function init(){
+    parent::init();
   }
 
   public function on($event, $callable){

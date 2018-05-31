@@ -29,7 +29,7 @@ class Csv {
   }
 
   public function isFileValid(){
-    if ( !is_null($this->file) ){
+    if ( !is_null($this->file) && file_exists($this->file) ){
       return true;
     }
     return false;
@@ -47,8 +47,10 @@ class Csv {
       foreach ( $data as $line ){
         fputcsv($file, $line);
       }
+      fflush($file);
       fclose($file);
       chmod($this->file, 0777);
+      clearstatcache();
       return;
     }
     throw new \Exception("Invalid data supplied to writeArray method.  2D array expected");

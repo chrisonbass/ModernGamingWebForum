@@ -20,6 +20,7 @@ class Topic extends LikedRecord {
   }
 
   public function init(){
+    parent::init();
     if ( $this->id ){
       $this->comments = (new Comment())->all([$this,'filterComments']);
       if ( $this->board_id ){
