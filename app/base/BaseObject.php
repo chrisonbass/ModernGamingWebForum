@@ -70,5 +70,9 @@ class BaseObject {
   public function getProperties(){
     return get_object_vars($this);
   }
+
+  public function toArray(){
+    return $this->getProperties();
+  }
 }
 ?>

@@ -64,7 +64,7 @@ final class ViewTest extends TestCase {
     $ref->assertGreaterThan(200, strlen($expect));
     $ref->expectOutputString($expect); 
 
-    $app = new App();
+    $app = new App(['db-name' => 'dbTesting']);
     $app->run();
   }
 }

@@ -1,7 +1,6 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use app\App;
 use app\model\Board;
 use app\model\Topic;
 use app\model\Comment;

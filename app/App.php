@@ -14,6 +14,7 @@ class App {
   public $request;
   public $controller;
   public $action;
+  public $config;
 
   public function __construct($_config = array()){
     $this->request = new Request();
@@ -27,6 +28,11 @@ class App {
 
     if ( !$this->controller ){
       $this->controller = Landing::className();
+    }
+
+    $this->config = $_config;
+    if ( !is_array($this->config) ){
+      $this->config = array();
     }
   }
 
@@ -50,6 +56,12 @@ class App {
       static::$app = new App();
     }
     return static::$app;
+  }
+  public function dbName(){
+    if ( isset($this->config['db-name']) ){
+      return $this->config['db-name'];
+    }
+    return "db";
   }
 
   public function setMessage($message, $type="info"){

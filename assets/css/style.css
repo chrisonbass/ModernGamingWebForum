@@ -1,0 +1,13 @@
+.like-block {
+  margin-bottom: 10px;
+  color: #212529;
+}
+
+.like-block a {
+  color: #212529;
+}
+
+.like-block a:focus,
+.like-block a:hover {
+  text-decoration: none;
+}

@@ -37,7 +37,7 @@ class Csv {
 
   public function writeArray($data){
     if ( !$this->isFileValid() ){
-      throw new \Exception("Invalid file for CSV to write");
+      throw new \Exception("Invalid file for CSV to write: {$this->file}");
     }
     if ( is_array($data) ){
       $file = fopen($this->file, 'w');

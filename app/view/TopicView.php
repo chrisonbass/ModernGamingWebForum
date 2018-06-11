@@ -16,7 +16,9 @@ class TopicView extends View {
       "model" => new TopicModel(),
       "user" => null,
       "can_delete_topic" => false,
+      "can_like_topic" => false,
       "creator" => null,
+      "like_count" => 0
     );
     return ArrayHelper::merge($d, $data);
   }

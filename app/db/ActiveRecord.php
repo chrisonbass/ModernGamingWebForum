@@ -1,6 +1,7 @@
 <?php
 namespace app\db;
 
+use app\App;
 use app\io\Csv;
 use app\util\Text;
 use app\base\Model;
@@ -201,7 +202,7 @@ abstract class ActiveRecord extends Model {
    * CSV that corresponds to this "table"
    */
   public function getCsvFileName(){
-    return "assets/db/" . $this->tableName() . ".csv";
+    return "assets/" . App::app()->dbName() . "/" . $this->tableName() . ".csv";
   }
 
   /**

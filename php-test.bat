@@ -1,1 +1,1 @@
-php assets\phpunit --bootstrap autoload.php --testdox tests && cmd
+cmd /k php assets\phpunit7 --bootstrap autoload.php --testdox tests 

@@ -43,14 +43,20 @@ class Topic extends Crud {
     }
     $model = new TopicModel($id);
     $can_delete = false;
+    $can_like = false;
     if( $user && $user->id && $model && $model->created_by ){
       $can_delete = ($user->id == $model->created_by) ? true : false;
+    }
+    if( $user && $user->id ){
+      $can_like = $user->hasRole(Role::userRole());
     }
     $data = array(
       "model" => $model,
       "user" => $user,
+      "like_count" => count($model->getLikes()),
       "creator" => new User($model->created_by),
-      "can_delete_topic" => $can_delete
+      "can_delete_topic" => $can_delete,
+      "can_like_topic" => $can_like
     );
     /*
     echo "<pre>";
@@ -89,6 +95,7 @@ class Topic extends Crud {
     header("location: index.php");
     exit;
   }
+
   public function actionCreate(){
     $app = App::app();
     $user = User::getLoggedInUser();

@@ -7,6 +7,15 @@
     <p class="lead"><?=$model->body?></p>
     <?php if ( $creator && $creator->id ): ?>
     <p><?=$creator->username?> on <?=date("D, M jS \a\t g:ia", strtotime($model->created_at))?> 
+    <p class="like-block">
+      <?php if ( $can_like_topic == true ): ?>
+        <a href="javascript:void(0);" data-action="likeTopic" data-topic-id="<?=$model->id?>" title="Like this Topic">
+        &#10084; <span className="like-count"><?=$like_count?></span>
+        </a>
+      <?php else: ?>
+        &#10084; <span className="like-count"><?=$like_count?></span>
+      <?php endif; ?>
+    </p>
     <?php endif; ?>
   </div>
   <h2>Comments
@@ -40,6 +49,7 @@
       <tbody>
         <?php if ($comments && count($comments) ): ?>
         <?php foreach ( $comments as $comment ): ?>
+        <?php $comm_likes = count($comment->getLikes()); ?>
           <tr>
             <td>
               <?php $cuser = $comment->getUser();?>
@@ -50,6 +60,15 @@
             </td>
             <td>
               <?=$comment->body?>
+              <p class="like-block">
+                <?php if ( $can_like_topic == true ): ?>
+                  <a href="javascript:void(0);" data-action="likeComment" data-comment-id="<?=$comment->id?>" title="Like this Comment">
+                  &#10084; <span className="like-count"><?=$comm_likes?></span>
+                  </a>
+                <?php else: ?>
+                  &#10084; <span className="like-count"><?=$comm_likes?></span>
+                <?php endif; ?>
+              </p>
             </td>
             <td class="text-right">
             <?php if ( $user && $user->id && $cuser && $cuser->id && $cuser->id == $user->id ) :?>

@@ -6,6 +6,7 @@ use app\util\Text;
 use app\view\HtmlWrapper;
 use app\view\Alert;
 use app\model\User;
+use app\model\Role;
 
 abstract class Controller extends BaseObject {
   public $action = "index";
