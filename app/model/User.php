@@ -43,4 +43,25 @@ class User extends ActiveRecord {
     }
     return null;
   }
+
+  public function filterUserComments($comment){
+    if ( $this->id == $comment->created_by ){
+      return true;
+    }
+  }
+
+  public function getComments(){
+    return (new Comment())->all([$this,"filterUserComments"]);
+  }
+
+  public function filterUserTopics($topic){
+    if ( $this->id == $topic->created_by ){
+      return true;
+    }
+  }
+
+  public function getTopics(){
+    return (new Topic())->all([$this,"filterUserTopics"]);
+  }
+
 }
