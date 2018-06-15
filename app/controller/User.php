@@ -17,6 +17,7 @@ class User extends Crud {
     $admin = Role::adminRole();
     $role = Role::userRole();
     switch ( $this->action ){
+      case "Index":
       case "Edit":
       case "Delete":
       case "Create":

@@ -6,6 +6,7 @@ use app\model\User;
 use app\model\Role;
 use app\model\Comment;
 use app\view\TopicCreate;
+use app\view\TopicDelete;
 use app\view\TopicView;
 use app\App;
 
@@ -33,15 +34,20 @@ class Topic extends Crud {
     );
   }
 
-  public function actionView(){
-    $app = App::app();
-    $user = User::getLoggedInUser();
-    $data = $app->request->get();
-    $id = null;
-    if ( isset($data['id']) ){
-      $id = $data['id'];
+  public function getDeleteForwardLocation(){
+    if ( $this->model->id ){
+      return "index.php?controller=board&action=view&id=" . $this->model->board_id;
     }
-    $model = new TopicModel($id);
+    return "return index.php?controller=board";
+  }
+
+  public function getDeleteView(){
+    return TopicDelete::className();
+  }
+
+  public function actionView(){
+    $user = User::getLoggedInUser();
+    $model = $this->model;
     $can_delete = false;
     $can_like = false;
     if( $user && $user->id && $model && $model->created_by ){
@@ -58,12 +64,6 @@ class Topic extends Crud {
       "can_delete_topic" => $can_delete,
       "can_like_topic" => $can_like
     );
-    /*
-    echo "<pre>";
-    print_r($data);
-    echo "</pre>";
-    exit;
-     */
     return new TopicView($data);
   }
 
@@ -152,11 +152,18 @@ class Topic extends Crud {
     $app = App::app();
     $user = User::getLoggedInUser();
     $get = $app->request->get();
+    $post = $app->request->post();
     switch ( $this->action ){
       case "Edit":
       case "Delete":
-        if ( isset($get['id']) && $user && $user->id ){
-          $model = new TopicModel($get['id']);
+        $id = null;
+        if ( isset($get['id']) ){
+          $id = $get['id'];
+        } else if ( isset($post['id']) ){
+          $id = $post['id'];
+        }
+        if ( $id && $user && $user->id ){
+          $model = new TopicModel($id);
           if ( $model && $model->created_by ){
             return $model->created_by == $user->id;
           }

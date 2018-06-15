@@ -4,6 +4,7 @@ namespace app\controller;
 
 use app\App;
 use app\base\Controller;
+use app\base\View;
 use app\util\Text;
 use app\util\ArrayHelper;
 use app\db\ActiveRecord;
@@ -20,7 +21,16 @@ use app\view\Link;
  * for that model
  */
 abstract class Crud extends Controller {
+  public $model;
   abstract function modelClass();
+
+  public function init(){
+    parent::init();
+    $app = App::app();
+    $id = $app->id;
+    $model_name = $this->modelClass();
+    $this->model = new $model_name($id);
+  }
 
   /**
    * The title that appears below
@@ -73,8 +83,7 @@ abstract class Crud extends Controller {
    */
   public function actionIndex(){
     $app = App::app();
-    $model_name = $this->modelClass();
-    $model = new $model_name();
+    $model = $this->model;
     $controller = Text::classToModelName($this->modelClass());
     $rows = $model->allArray();
     $fields = $model->getFields();
@@ -129,6 +138,7 @@ abstract class Crud extends Controller {
       "title" => $this->getTitle(),
     ), $children);
   }
+
   /**
    * Default create page
    */
@@ -136,8 +146,7 @@ abstract class Crud extends Controller {
     $controller = Text::classToModelName($this->modelClass());
     $name = Text::classNameToName($this->modelClass());
     $app = App::app();
-    $model_name = $this->modelClass();
-    $model = new $model_name();
+    $model = $this->model;
     if ( $app->request->isPost() ){
       $data = $app->request->post();
       if ( isset($data['submit']) ){
@@ -177,8 +186,7 @@ abstract class Crud extends Controller {
     $controller = Text::classToModelName($this->modelClass());
     $name = Text::classNameToName($this->modelClass());
     $app = App::app();
-    $model_name = $this->modelClass();
-    $model = new $model_name($app->id);
+    $model = $this->model;
     if ( $app->request->isPost() ){
       $data = $app->request->post();
       if ( isset($data['submit']) ){
@@ -217,8 +225,7 @@ abstract class Crud extends Controller {
     $controller = Text::classToModelName($this->modelClass());
     $name = Text::classNameToName($this->modelClass());
     $app = App::app();
-    $model_name = $this->modelClass();
-    $model = new $model_name($app->id);
+    $model = $this->model;
     if ( $model && $model->id ){
       $body = null;
       $properties = array();
@@ -249,6 +256,14 @@ abstract class Crud extends Controller {
     throw new \Exception("Invalid Model");
   }
 
+  public function getDeleteForwardLocation(){
+    return "index.php?controller=" . Text::classToModelName($this->modelClass());
+  }
+
+  public function getDeleteView(){
+    return null;
+  }
+
   /**
    * Default delete page
    */
@@ -261,7 +276,7 @@ abstract class Crud extends Controller {
       if ( isset($data['delete']) ){
         switch ( $data['delete'] ){
           case "yes":
-            $model = new $model_name($data['id']);
+            $model = $this->model;
             $app->setMessage("Error deleting " . $name, "danger");
             if ( $model && $model->id ){
               $app->setMessage($name . " Deleted", "success");
@@ -273,39 +288,46 @@ abstract class Crud extends Controller {
             $app->setMessage("Cancelled " . $name . " Deletion", "success");
             break;
         }
-        header("location: index.php?controller=" . Text::classToModelName($this->modelClass()));
+        header("location: " . $this->getDeleteForwardLocation());
         exit;
       }
     }
     $id = $app->id;
-    $model = new $model_name($id);  
+    $model = $this->model;
     $body = "<p>Are you sure you want to delete this object?</p>";
     foreach ( $model->getFields() as $field ){
       $lbl = Text::modelFieldToLabel($field);
       $body .= "<div><strong>$lbl</strong>: {$model->$field}</div>";
     }
     $controller = Text::classToModelName($this->modelClass());
-    $body .= "<form action='?controller={$controller}&action=delete' method='post'>";
-    $body .= new Input(array(
-      "type" => "hidden",
-      "name" => "id",
-      "value" => $model->id
-    ));
-    $body .= new Input(array(
-      "type" => "button",
-      "name" => "delete",
-      "value" => "yes",
-      "bs_class" => "danger",
-      "label" => "Yes"
-    ));
-    $body .= new Input(array(
-      "type" => "button",
-      "name" => "delete",
-      "value" => "no",
-      "bs_class" => "info",
-      "label" => "No"
-    ));
-    $body .= "</form>";
+    $template = $this->getDeleteView();
+    if ( is_subclass_of($template, View::className()) ){
+      $body = new $template(array(
+        "model" => $this->model
+      ));
+    } else {
+      $body .= "<form action='?controller={$controller}&action=delete' method='post'>";
+      $body .= new Input(array(
+        "type" => "hidden",
+        "name" => "id",
+        "value" => $model->id
+      ));
+      $body .= new Input(array(
+        "type" => "button",
+        "name" => "delete",
+        "value" => "yes",
+        "bs_class" => "danger",
+        "label" => "Yes"
+      ));
+      $body .= new Input(array(
+        "type" => "button",
+        "name" => "delete",
+        "value" => "no",
+        "bs_class" => "info",
+        "label" => "No"
+      ));
+      $body .= "</form>";
+    }
     return new Home(array(
       "title" => "Delete {$name}: " . $model->id
     ), $body); 

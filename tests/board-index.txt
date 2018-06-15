@@ -39,11 +39,11 @@
   </p>
 </div>
 <div class="table-responsive">
-  <table class="table table-hover">
+  <table class="table table-hover board-list">
     <thead>
       <tr>
         <th>Name</th> 
-        <th>Topic Count</th> 
+        <th>Topics</th> 
         <th>Last Topic</th> 
       </tr>
     </thead>

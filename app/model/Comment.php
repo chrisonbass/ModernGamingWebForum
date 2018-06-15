@@ -34,9 +34,12 @@ class Comment extends LikedRecord {
     }
     return null;
   }
+
   public function beforeCommentSave($event){
     if ( !$this->created_at ){
       $this->created_at = date("Y-m-d H:i:s");
     }
   }
+
+
 }

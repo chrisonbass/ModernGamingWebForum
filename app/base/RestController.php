@@ -41,15 +41,22 @@ abstract class RestController extends Controller {
       ]);
       exit;
     }
+
     $actionMethod = "action" . $this->action;
     $body = [];
+    $status = "success";
 
     if ( method_exists($this, $actionMethod) ){
       $body = $this->$actionMethod();
+    } else {
+      $status = "fail";
     }
 
+    if ( $status == "fail" ){
+      http_response_code(403);
+    }
     echo json_encode([
-      "status" => "success",
+      "status" => $status,
       "result" => $body
     ]);
     exit;  

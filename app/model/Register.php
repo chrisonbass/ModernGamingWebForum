@@ -45,6 +45,9 @@ class Register extends Model {
           ); 
         }
       }
+      else {
+        $this->addError("password", "Passwords must match");
+      }
     }
     else {
       $this->addError("password", "Passwords must match");

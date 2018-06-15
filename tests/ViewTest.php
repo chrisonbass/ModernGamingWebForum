@@ -8,24 +8,27 @@ use app\controller\Topic;
 
 final class ViewTest extends TestCase {
   public function testAppControllerIsConstructedProperly(){
+    $app = null;
     $_GET = array();
-    $app = new App();
+    $app = new App(['db-name' => 'dbTesting']);
     $this->assertInstanceOf(
       Landing::class,
       $app->getController()
     );
 
+    $app = null;
     $_GET = array();
     $_GET['controller'] = "board";
-    $app = new App();
+    $app = new App(['db-name' => 'dbTesting']);
     $this->assertInstanceOf(
       Board::class,
       $app->getController()
     );
 
+    $app = null;
     $_GET = array();
     $_GET['controller'] = "topic";
-    $app = new App();
+    $app = new App(['db-name' => 'dbTesting']);
     $this->assertInstanceOf(
       Topic::class,
       $app->getController()

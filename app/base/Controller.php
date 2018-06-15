@@ -12,6 +12,7 @@ abstract class Controller extends BaseObject {
   public $action = "index";
 
   public function __construct(){
+    parent::__construct();
   } 
 
   public function getTitle(){

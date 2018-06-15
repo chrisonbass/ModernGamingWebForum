@@ -39,26 +39,29 @@
   <h2>Topics
     </h2>
   <div class="table-responsive">
-    <table class="table table-hover">
+    <table class="table table-hover board-table">
       <thead>
         <tr>
           <th>Name</th> 
-          <th>Comment Count</th> 
+          <th>Likes</th> 
+          <th>Comments</th> 
         </tr>
       </thead>
       <tbody>
                   <tr>
             <td>
-                <a href="index.php?controller=topic&action=view&id=5b0279f02ad33">Fortnite Solo Showdown Mode!</a>
-                <p class="small">Fortnite introduces a new...</p>
+              <a href="index.php?controller=topic&action=view&id=5b0279f02ad33">Fortnite Solo Showdown Mode!</a>
+              <p class="small">Fortnite introduces a new...</p>
             </td>
+            <td>2</td>
             <td>2</td>
           </tr>
                   <tr>
             <td>
-                <a href="index.php?controller=topic&action=view&id=5b0f5f2befbc6">Death Garden Beta this June</a>
-                <p class="small">Is anyone going to check ...</p>
+              <a href="index.php?controller=topic&action=view&id=5b0f5f2befbc6">Death Garden Beta this June</a>
+              <p class="small">Is anyone going to check ...</p>
             </td>
+            <td>0</td>
             <td>0</td>
           </tr>
               </tbody>

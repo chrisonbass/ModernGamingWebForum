@@ -4,6 +4,7 @@ namespace app\model;
 use app\db\ActiveRecord;
 use app\db\LikedRecord;
 use app\model\User;
+use app\model\Board;
 
 class Topic extends LikedRecord {
   public $board_id;
@@ -43,6 +44,17 @@ class Topic extends LikedRecord {
       if ( $user && $user->id ){
         return $user;
       }
+    }
+    return null;
+  }
+
+  /**
+   * Returns the board for this topic
+   * @return app\model\Board the board
+   */
+  public function getBoard(){
+    if ( $this->board_id ){
+      return new Board($this->board_id);
     }
     return null;
   }

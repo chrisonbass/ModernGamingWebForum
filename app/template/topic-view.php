@@ -6,7 +6,7 @@
     <h1 class="display-4"><?=$model->title?></h1>
     <p class="lead"><?=$model->body?></p>
     <?php if ( $creator && $creator->id ): ?>
-    <p><?=$creator->username?> on <?=date("D, M jS \a\t g:ia", strtotime($model->created_at))?> 
+    <p><?=$creator->username?> on <?=date("D, M jS \\a\\t g:ia", strtotime($model->created_at))?> 
     <p class="like-block">
       <?php if ( $can_like_topic == true ): ?>
         <a href="javascript:void(0);" data-action="likeTopic" data-topic-id="<?=$model->id?>" title="Like this Topic">
@@ -45,7 +45,7 @@
   </div>
   <?php endif; ?>
   <div class="table-responsive">
-    <table class="table table-hover">
+    <table class="table table-hover topic-table">
       <tbody>
         <?php if ($comments && count($comments) ): ?>
         <?php foreach ( $comments as $comment ): ?>
@@ -56,6 +56,11 @@
               <?php if ( $cuser && $cuser->id ): ?>
                 <a href="index.php?controller=user&action=view&id=<?=$cuser->id?>"><?=$cuser->username?></a>
                 <p class="small"><?=date("D, M jS", strtotime($comment->created_at))?></p>
+              <?php endif; ?>
+              <?php if ( $user && $user->id && $cuser && $cuser->id && $cuser->id == $user->id ) :?>
+                <a href="index.php?controller=comment&action=delete&id=<?=$comment->id?>" class="btn btn-danger btn-sm">
+                  Delete
+                </a>
               <?php endif; ?>
             </td>
             <td>
@@ -69,13 +74,6 @@
                   &#10084; <span className="like-count"><?=$comm_likes?></span>
                 <?php endif; ?>
               </p>
-            </td>
-            <td class="text-right">
-            <?php if ( $user && $user->id && $cuser && $cuser->id && $cuser->id == $user->id ) :?>
-              <a href="index.php?controller=comment&action=delete&id=<?=$comment->id?>" class="btn btn-danger">
-                Delete Comment
-              </a>
-            <?php endif; ?>
             </td>
           </tr>
         <?php endforeach; ?>

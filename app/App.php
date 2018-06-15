@@ -34,6 +34,7 @@ class App {
     if ( !is_array($this->config) ){
       $this->config = array();
     }
+    static::$app = $this;
   }
 
   public function getController(){
@@ -51,12 +52,13 @@ class App {
     $controller->action();
   }
 
-  public static function app(){
+  public static function app($_config = array()){
     if ( is_null(static::$app) ){
-      static::$app = new App();
+      static::$app = new App($_config);
     }
     return static::$app;
   }
+
   public function dbName(){
     if ( isset($this->config['db-name']) ){
       return $this->config['db-name'];

@@ -35,7 +35,7 @@
                 <div class="jumbotron">
     <h1 class="display-4">Fortnite Solo Showdown Mode!</h1>
     <p class="lead">Fortnite introduces a new Limited Time Mode call &quot;Solo Showdown&quot;.  It looks like they may add ranking in the future based on the popularity of this mode.  Ranked matches would be a great way for new players to play against players of similar skillset</p>
-        <p>TimSmith on Mon, May 21st a	 7:49am 
+        <p>TimSmith on Mon, May 21st at 7:49am 
     <p class="like-block">
               &#10084; <span className="like-count">2</span>
           </p>
@@ -43,33 +43,29 @@
   <h2>Comments
     </h2>
     <div class="table-responsive">
-    <table class="table table-hover">
+    <table class="table table-hover topic-table">
       <tbody>
                                   <tr>
             <td>
                                             <a href="index.php?controller=user&action=view&id=5b022f56bffdb">ChrisOnBass</a>
                 <p class="small">Mon, May 21st</p>
-                          </td>
+                                        </td>
             <td>
               I'm looking forward to possibly playing in ranked matches!!              <p class="like-block">
-                                  &#10084; <span className="like-count">0</span>
+                                  &#10084; <span className="like-count">1</span>
                               </p>
             </td>
-            <td class="text-right">
-                        </td>
           </tr>
                           <tr>
             <td>
                                             <a href="index.php?controller=user&action=view&id=5b030a6fc30ef">TestUser</a>
                 <p class="small">Mon, May 21st</p>
-                          </td>
+                                        </td>
             <td>
               If they actually do this, maybe I could finally get a win in this game!  Everyone is so good these days.                <p class="like-block">
                                   &#10084; <span className="like-count">0</span>
                               </p>
             </td>
-            <td class="text-right">
-                        </td>
           </tr>
                       </tbody>
     </table>

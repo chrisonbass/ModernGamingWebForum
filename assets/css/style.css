@@ -11,3 +11,20 @@
 .like-block a:hover {
   text-decoration: none;
 }
+
+.board-list tr td:first-child,
+.board-list tr td:last-child,
+.board-table tr td:first-child {
+  min-width: 200px;
+}
+
+.board-list tr td:nth-child(2),
+.board-table tr th:nth-child(n+2),
+.board-table tr td:nth-child(n+2) {
+  text-align: center;
+}
+
+.topic-table tr td:first-child{
+  width: 125px;
+  padding-right: 15px;
+}

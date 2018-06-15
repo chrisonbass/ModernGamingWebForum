@@ -13,20 +13,22 @@
   <?php endif; ?>
   </h2>
   <div class="table-responsive">
-    <table class="table table-hover">
+    <table class="table table-hover board-table">
       <thead>
         <tr>
           <th>Name</th> 
-          <th>Comment Count</th> 
+          <th>Likes</th> 
+          <th>Comments</th> 
         </tr>
       </thead>
       <tbody>
         <?php foreach ( $board->getTopics() as $topic ): ?>
           <tr>
             <td>
-                <a href="index.php?controller=topic&action=view&id=<?=$topic->id?>"><?=$topic->title?></a>
-                <p class="small"><?=substr($topic->body,0,25)?>...</p>
+              <a href="index.php?controller=topic&action=view&id=<?=$topic->id?>"><?=$topic->title?></a>
+              <p class="small"><?=substr($topic->body,0,25)?>...</p>
             </td>
+            <td><?=count($topic->getLikes())?></td>
             <td><?=count($topic->getComments())?></td>
           </tr>
         <?php endforeach; ?>
